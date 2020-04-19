@@ -84,6 +84,25 @@ class Maze():
 
         # print(self.height, self.width, self.start, self.goal)
 
+    def print(self):
+        solution = self.solution[1] if self.solution is not None else None
+        print()
+
+        for i, row in enumerate(self.walls):
+            for j, col in enumerate(row):
+                if col:
+                    print("█", end="")
+                elif (i, j) == self.start:
+                    print('A', end='')
+                elif (i, j) == self.goal:
+                    print('B', end='')
+                elif solution is not None and (i, j) in solution:
+                    print('*', end='')
+                else:
+                    print(' ', end='')
+            print()
+        print()
+
     def neighbors(self, state):
         row, col = state
         candidates = [
@@ -156,6 +175,10 @@ if len(sys.argv) != 2:
     sys.exit('Usage: python maze.py maze.txt')
 
 m = Maze(sys.argv[1])
+print('Maze:')
+m.print()
 print('Solving...')
 m.solve()
 print('States Explored: ', m.num_explored)
+print("Solution in maze:")
+m.print()
